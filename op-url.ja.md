@@ -67,7 +67,7 @@ full path が application root 配下にある場合、実装はまずそれを 
 関数は次を組み合わせて返します。
 
 - `REQUEST_SCHEME`
-- `HTTP_HOST`
+- `SERVER_NAME`
 - `REQUEST_URI`
 
 つまり current request の完全 URL です。
@@ -83,6 +83,9 @@ current 実装では、`OP()->URL('.')` は次を含む完全 URL を返しま�
 つまり FQDN レベルの情報を含みます。
 
 これは、framework の URL abstraction level では FQDN を含めたくないという、より大きな設計上の好みとのギャップです。
+実装は `HTTP_HOST` ではなく `SERVER_NAME` を使うようになっていますが、`SERVER_NAME` も application data として完全に信用してはいけません。
+request header 由来ではなく server configuration 由来ですが、設定ミスや runtime environment の違いは起こり得ます。
+将来も FQDN level の data を返す設計を維持する場合、その host value は明示的に validate または constrain する必要があります。
 
 ## [DOC-FUTURE] `'.'` に対する将来方針
 

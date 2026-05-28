@@ -67,7 +67,7 @@ If the input is:
 the function returns:
 
 - `REQUEST_SCHEME`
-- `HTTP_HOST`
+- `SERVER_NAME`
 - `REQUEST_URI`
 
 combined as the current full request URL.
@@ -83,6 +83,9 @@ In current implementation, `OP()->URL('.')` returns a full URL including:
 That means it includes FQDN-level information.
 
 This is a gap from the broader framework preference not to include FQDN at the framework URL abstraction level.
+The implementation now uses `SERVER_NAME` instead of `HTTP_HOST`, but `SERVER_NAME` still should not be treated as fully trustworthy application data.
+It is server-configuration-derived rather than request-header-derived, yet it can still be misconfigured or differ by runtime environment.
+Any future design that keeps returning FQDN-level data must validate or constrain that host value explicitly.
 
 ## [DOC-FUTURE] Future Direction for `'.'`
 
